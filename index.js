@@ -1,30 +1,26 @@
 var express = require('express');
 //var multer = require('multer');
-//var serveStatic = require('serve-static');
-var dataGenerator = require('./dataGenerator');
+var points = require('./modules/graph-data');
 
 var app = express()
 app.set('view engine', 'jade');
 app.set('views', './views');
-app.use('/static', express.static(__dirname + '/static'));
+app.use(express.static('./assets'));
 //app.use(multer({ dest: './uploads'}));
+
 app.get('/', function (req, res, next) {
-	res.render('index');
-	next();
+  points.getData(function(err, data){
+    if(err) return next(err);
+    res.render('index', {numbers: data, length: 40});
+  });
 });
 
-var data = new Array(15);
-app.post('/', function (req, res) {
-	dataGenerator(data, function(err, data){
-		if (err) {
-			res.render('index');
-			return console.error(err);
-		}
-		this.data = data;
-		console.log("Numbers: "+data);
-		res.json(data);
-	});
-	
+app.get('/api/getdata', function (req, res, next) {
+  console.log("Request on: /api/getdata");
+  points.getData(function(err, data){
+    if(err) return next(err);
+    res.json(data);
+  });
 });
 
 app.listen(8080, function () {

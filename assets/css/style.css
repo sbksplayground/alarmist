@@ -4,3 +4,6 @@ textarea{
 input{
 	display: block;
 }
+svg.chart .surfaces {
+  fill-opacity: 0.5;
+}
