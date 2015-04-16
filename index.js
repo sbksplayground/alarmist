@@ -1,12 +1,13 @@
 var express = require('express');
-var multer = require('multer');
+//var multer = require('multer');
+//var serveStatic = require('serve-static');
 var dataGenerator = require('./dataGenerator');
 
 var app = express()
 app.set('view engine', 'jade');
 app.set('views', './views');
-app.use('/stylesheets', express.static(__dirname + '/static'));
-app.use(multer({ dest: './uploads'}));
+app.use('/static', express.static(__dirname + '/static'));
+//app.use(multer({ dest: './uploads'}));
 app.get('/', function (req, res, next) {
 	res.render('index');
 	next();
