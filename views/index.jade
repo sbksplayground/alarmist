@@ -12,11 +12,11 @@ block content
                         orient="auto")
                         polygon(points="-2,0 -5,5 5,0 -5,-5" fill="black" stroke="black" stroke-width="1px")
         
-        line(x1="20" y1="500" x2="20" y2="20" stroke="black" stroke-width="2" marker-mid="url(#Line)"  marker-end="url(#Arrow)")
+        line(id="axis-y" x1="20" y1="500" x2="20" y2="20" stroke="black" stroke-width="2" marker-end="url(#Arrow)")
         - for (var i = 20; i < 480; i = i + 20)
             line(x1="15" y1=500-i x2="25" y2=500-i stroke="black" stroke-width="2")
         
-        line(x1="20" y1="500" x2=(numbers.length+2)*20 y2="500" stroke="black" stroke-width="2" marker-end="url(#Arrow)")
+        line(id="axis-x" x1="20" y1="500" x2=(numbers.length+2)*20 y2="500" stroke="black" stroke-width="2" marker-end="url(#Arrow)")
         - for (var i = 20; i < (numbers.length+1)*20; i = i + 20)
             line(x1=20+i y1="495" x2=20+i y2="505" stroke="black" stroke-width="2")
                     
