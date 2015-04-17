@@ -3,7 +3,7 @@ var idInterval = setInterval(graphPoints, 100);
 function graphPoints(){
   var xhr = new XMLHttpRequest();
   xhr.onload = reqListener;
-  xhr.onerror = reqError;
+  xhr.onerror = reqError;                                    
   xhr.open("get", "/api/getdata", true);
   xhr.send();
 }

@@ -16,7 +16,6 @@ app.get('/', function (req, res, next) {
 });
 
 app.get('/api/getdata', function (req, res, next) {
-  console.log("Request on: /api/getdata");
   points.getData(function(err, data){
     if(err) return next(err);
     res.json(data);
