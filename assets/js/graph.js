@@ -16,11 +16,18 @@
 //  clearInterval(idInterval);
 //}
 
-
 var socket = io();
-socket.on('data', function (data) {
-    document.getElementById('data').innerHTML = data;
-    updateGraph(data);
+socket.on('graphs', function(data){
+	var graphs = data;
+	console.log(data);
+	for(var i = 0; i < graphs.length; i++){
+		console.log(graphs[i]);
+		var graph = graphs[i];
+		socket.on(graphs[i], function (data) {
+	        console.log("data for graph "+data.graph+" are"+data.points );
+		document.getElementById('data').innerHTML = data.points;
+		updateGraph(data.points);				       
+});}
 });
 
 

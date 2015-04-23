@@ -11,12 +11,13 @@ app.use(express.static('./assets'));
 //app.use(multer({ dest: './uploads'}));
 //app.use(multer({ dest: './uploads'}));
 
-app.get('/', function (req, res, next) {
+app.get('/', function (req, res, next) {	
   points.initData(function(err, data){
     if(err) return next(err);
     res.render('index', {numbers: data, length: 40});
   });
 });
+
 
 app.get('/api/getdata', function (req, res, next) {
   console.log("Request on: /api/getdata");
@@ -26,23 +27,27 @@ app.get('/api/getdata', function (req, res, next) {
   });
 });
 
-var interval;
 io.on('connection', function(socket, interval){
     console.log('connected');
-    interval = setInterval(function(){
-        socket.emit(
-            'data',
+    var graphs = ['0','1','2'];
+    socket.emit('graphs' ,graphs)
+    var interval = setInterval(function(){
+        for(var i = 0; i < graphs.length; i++){
+		socket.emit(
+            graphs[i],{points :
             points.getData(
                 function(err, data){
                     if(err) return next(err);
-                    return data;
-                })
+		    return data;
+                }),graph: graphs[i]}
         );
+	}
     },500);
-});
-io.on('disconnect', function(socket, interval){
-	console.log('disconnected');
-	clearInterval(interval);
+    socket.on('disconnect', function(){
+	    console.log('disconnected');
+	    clearInterval(interval);
+	    });
+
 });
 server.listen(8080, function () {
 	var addr = this.address();
