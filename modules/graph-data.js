@@ -1,6 +1,12 @@
 var _und = require('underscore');
 var exports = module.exports = {};
-var nums = [-100, 100, -100, 100, -100, 100, 50, 50, 50, 50, -100, 100, -100, 100, -100, 100, 50, 50, 50, 50, -100, 100, -100, 100, -100, 100, 50, 50, 50, 50, -100, 100, -100, 100, -100, 100, 50, 50, 50, 50];
+var nums = [];
+
+exports.initData = function(callback){
+    for(var i = 0; i < 40; i++)
+        nums.push(0);
+    return callback(null, nums);
+}
 
 exports.getData = function (callback) {
   return updateData(callback);

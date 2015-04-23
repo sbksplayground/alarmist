@@ -12,7 +12,7 @@ app.use(express.static('./assets'));
 //app.use(multer({ dest: './uploads'}));
 
 app.get('/', function (req, res, next) {
-  points.getData(function(err, data){
+  points.initData(function(err, data){
     if(err) return next(err);
     res.render('index', {numbers: data, length: 40});
   });

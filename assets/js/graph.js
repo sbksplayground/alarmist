@@ -1,20 +1,20 @@
-function graphPoints(){
-  var xhr = new XMLHttpRequest();
-  xhr.onload = reqListener;
-  xhr.onerror = reqError;
-  xhr.open("get", "/api/getdata", true);
-  xhr.send();
-}
-var reqListener = function() {
-  var points = JSON.parse(this.response);
-  updateGraph(points);
-  document.getElementById('data').innerHTML = points;
-  console.log(points);
-}
-var reqError = function(){
-  console.log("Request error ... stoping interval!");
-  clearInterval(idInterval);
-}
+//function graphPoints(){
+//  var xhr = new XMLHttpRequest();
+//  xhr.onload = reqListener;
+//  xhr.onerror = reqError;
+//  xhr.open("get", "/api/getdata", true);
+//  xhr.send();
+//}
+//var reqListener = function() {
+//  var points = JSON.parse(this.response);
+//  updateGraph(points);
+//  document.getElementById('data').innerHTML = points;
+//  console.log(points);
+//}
+//var reqError = function(){
+//  console.log("Request error ... stoping interval!");
+//  clearInterval(idInterval);
+//}
 
 
 var socket = io();
