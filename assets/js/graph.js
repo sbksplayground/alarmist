@@ -1,5 +1,3 @@
-var idInterval = setInterval(graphPoints, 100);
-
 function graphPoints(){
   var xhr = new XMLHttpRequest();
   xhr.onload = reqListener;
@@ -14,6 +12,12 @@ var reqListener = function() {
   document.getElementById('data').innerHTML = points;
   console.log(points);
 }
+
+var socket = io();
+socket.on('data', function (data) {
+	       console.log(data);
+		     });
+
 
 var reqError = function(){
   console.log("Request error ... stoping interval!");

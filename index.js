@@ -1,11 +1,14 @@
 var express = require('express');
+var app = express();
 //var multer = require('multer');
+var server= require('http').Server(app);
+var io = require('socket.io')(server);
 var points = require('./modules/graph-data');
 
-var app = express()
 app.set('view engine', 'jade');
 app.set('views', './views');
 app.use(express.static('./assets'));
+//app.use(multer({ dest: './uploads'}));
 //app.use(multer({ dest: './uploads'}));
 
 app.get('/', function (req, res, next) {
@@ -22,8 +25,18 @@ app.get('/api/getdata', function (req, res, next) {
     res.json(data);
   });
 });
-
-app.listen(8080, function () {
+var interval;
+io.on('connection', function(socket, interval){
+	console.log('connected');
+	interval = setInterval(function(){
+	socket.emit('data', {data : Math.floor(Math.random()*100)});
+	},500);
+});
+io.on('disconnect', function(socket, interval){
+	console.log('disconnected');
+	clearInterval(interval);
+});
+server.listen(8080, function () {
 	var addr = this.address();
 	console.log("Server listening on http://%s:%s", addr.address, addr.port);
 });
