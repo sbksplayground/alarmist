@@ -1,9 +1,7 @@
 extends ./layout.jade
 
 block content
-    #data="no data"
-
-    svg(class="chart" version="1.1" baseProfile="full" width=numbers.length*20+100 height="550" xmlns="http://www.w3.org/2000/svg")
+    svg(id="graph-1" class="chart" version="1.1" baseProfile="full" width=numbers.length*20+100 height="550" xmlns="http://www.w3.org/2000/svg")
         defs
                 marker(id="Arrow" 
                         markerWidth="5" markerHeight="5" viewBox="-6 -6 12 12" 
@@ -28,3 +26,18 @@ block content
                 line(x1=cx_var1 y1=cy_var1 x2=cx_var2 y2=cy_var2 stroke="black" stroke-width="2" id="graph-line-"+i)
             - cx_var2 = cx_var1
             - cy_var2 = cy_var1
+
+    #new-graph
+
+    form(onsubmit="getNewGraph(); return false;" method="POST", id="add-new-graph-form" enctype="application/x-www-form-urlencoded")
+        div.input
+            span.label Color
+            input(type="text", name="color" id="form-color" value="")
+        div.input
+            span.label Min value
+            input(type="text", name="min" id="form-min" value="")
+        div.input
+            span.label Max value
+            input(type="text", name="max" id="form-max" value="")
+        div.actions
+            input(type="submit", value="Add new graph")

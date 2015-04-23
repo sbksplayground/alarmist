@@ -1,11 +1,15 @@
 var _und = require('underscore');
 var exports = module.exports = {};
-var nums = [];
-
-exports.initData = function(callback){
+var initData = function(){
+    var init = [];
     for(var i = 0; i < 40; i++)
-        nums.push(0);
-    return callback(null, nums);
+        init.push(0);
+    return init;
+}
+var nums = initData();
+
+exports.getInitData = function(callback){
+    return callback(null, initData());
 }
 
 exports.getData = function (callback) {
