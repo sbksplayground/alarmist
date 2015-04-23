@@ -5,24 +5,24 @@ function graphPoints(){
   xhr.open("get", "/api/getdata", true);
   xhr.send();
 }
-
 var reqListener = function() {
   var points = JSON.parse(this.response);
   updateGraph(points);
   document.getElementById('data').innerHTML = points;
   console.log(points);
 }
-
-var socket = io();
-socket.on('data', function (data) {
-	       console.log(data);
-		     });
-
-
 var reqError = function(){
   console.log("Request error ... stoping interval!");
   clearInterval(idInterval);
 }
+
+
+var socket = io();
+socket.on('data', function (data) {
+    document.getElementById('data').innerHTML = data;
+    updateGraph(data);
+});
+
 
 var updateGraph = function(data){
   var before_cy, line, point;

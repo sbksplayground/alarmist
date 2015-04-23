@@ -25,12 +25,20 @@ app.get('/api/getdata', function (req, res, next) {
     res.json(data);
   });
 });
+
 var interval;
 io.on('connection', function(socket, interval){
-	console.log('connected');
-	interval = setInterval(function(){
-	socket.emit('data', {data : Math.floor(Math.random()*100)});
-	},500);
+    console.log('connected');
+    interval = setInterval(function(){
+        socket.emit(
+            'data',
+            points.getData(
+                function(err, data){
+                    if(err) return next(err);
+                    return data;
+                })
+        );
+    },500);
 });
 io.on('disconnect', function(socket, interval){
 	console.log('disconnected');
