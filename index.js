@@ -4,15 +4,18 @@ var app = express();
 var server= require('http').Server(app);
 var io = require('socket.io')(server);
 var points = require('./modules/graph-data');
+var graphs = require('./modules/graph-new');
+var bodyParser = require('body-parser');
 
 app.set('view engine', 'jade');
 app.set('views', './views');
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('./assets'));
 //app.use(multer({ dest: './uploads'}));
 //app.use(multer({ dest: './uploads'}));
 
 app.get('/', function (req, res, next) {	
-  points.initData(function(err, data){
+  points.getInitData(function(err, data){
     if(err) return next(err);
     res.render('index', {numbers: data, length: 40});
   });
@@ -27,6 +30,20 @@ app.get('/api/getdata', function (req, res, next) {
   });
 });
 
+app.post('/api/add-new-graph', function (req, res, next) {
+  var initdata;  
+  points.getInitData(function(err, data){
+    if(err) return next(err);
+    initdata = data;
+  });
+  graphs.getGraphSvg(parseInt(req.body.lastGraphId)+1, function(err, graph){
+    if(err) return next(err);
+    res.json({numbers: initdata, length: 40, graph: graph, color: req.body.color, min: req.body.min, max: req.body.max});
+  });
+});
+
+var interval;
+var graphid = 1;
 io.on('connection', function(socket, interval){
     console.log('connected');
     var graphs = ['0','1','2'];
