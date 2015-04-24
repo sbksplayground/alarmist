@@ -22,13 +22,13 @@ app.get('/', function (req, res, next) {
 });
 
 
-app.get('/api/getdata', function (req, res, next) {
-  console.log("Request on: /api/getdata");
-  points.getData(function(err, data){
-    if(err) return next(err);
-    res.json(data);
-  });
-});
+//app.get('/api/getdata', function (req, res, next) {
+//  console.log("Request on: /api/getdata");
+//  points.getData(function(err, data){
+//    if(err) return next(err);
+//    res.json(data);
+//  });
+//});
 
 //app.post('/api/add-new-graph', function (req, res, next) {
 //  var initdata;  
@@ -43,19 +43,18 @@ app.get('/api/getdata', function (req, res, next) {
 //});
 
 
-io.on('connection', function(socket, interval){
+io.on('connection', function(socket){
     console.log('connected');
-    var interval;
     var graphs = ['1'];
     var interval = setInterval(function(){
         for(var i = 0; i < graphs.length; i++){
-            socket.emit(
-                'data',{points :
-                points.getData(
+            socket.emit('data',{
+                points : points.getData(
                     function(err, data){
                         if(err) return next(err);
                         return data;
-                    }),graphId: graphs[i]}
+                    }),
+                graphId: graphs[i]}
             );
         }
     },5000);
@@ -64,7 +63,7 @@ io.on('connection', function(socket, interval){
         console.log('newGraph', data.color, data.min, data.max);
         var newGraphId = graphs.length+1;
         graphs.push(newGraphId);
-        newGraph.getGraphSvg(newGraphId, data.color, data.min, data.max, 20, function(err, graph){
+        newGraph.getGraphSvg(newGraphId, data.color, data.min, data.max, 40, function(err, graph){
             if(err) return next(err);
             socket.emit('newGraph', {graph: graph, graphId: newGraphId});
         });

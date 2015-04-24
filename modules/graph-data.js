@@ -17,8 +17,10 @@ exports.getData = function (callback) {
 }
 
 var updateData = function (callback){
+  var min = -100;
+  var max = 300;
   nums.shift();
-  nums.push(getRandomArbitrary(-100,100));
+  nums.push(getRandomArbitrary(min, max));
   //console.log(nums);
   //console.log("Min: "+_und.min(nums)+", Max: "+_und.max(nums));
   return callback(null, nums);	

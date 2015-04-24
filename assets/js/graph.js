@@ -28,22 +28,19 @@ socket.on('newGraph', function(data){
     newGraphPlace.innerHTML = graphsetup;
 });
 
-var updateGraph = function(data, graphid){
+var updateGraph = function(data, graphid, min, max){
+  min = -100; max = 300;
   console.log(graphid, data);
   var graph = document.getElementById('graph-'+graphid);
   var before_cy, line, point;
-  var max = Math.max.apply(null, data);
-  var min = Math.min.apply(null, data);
-  console.log("Points max is "+max+" and min is "+min);
+  var scaleY = 480/(max-min);
+  
   for (var i=0; i < data.length; i++){
-    var cy = 250+data[i]*2.5;
+//    var cy = 250+data[i]*2.5;
+    var cy = (500-data[i]*scaleY)+(scaleY*min);
     point = graph.getElementById('graph-point-'+i);
     point.setAttribute("cy", cy);
-//    if(data[i]==max || data[i]==min){
-//      point.setAttribute("fill", "red");  
-//    }else {
-//      point.setAttribute("fill", "black")
-//    }
+
     if(i!=0){
       line = graph.getElementById('graph-line-'+i);
       line.setAttribute("y1", cy);
