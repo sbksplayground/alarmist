@@ -1,31 +1,32 @@
 extends ./layout.jade
 
 block content
-    svg(id="graph-1" class="chart" version="1.1" baseProfile="full" width=numbers.length*20+100 height="550" xmlns="http://www.w3.org/2000/svg")
-        defs
-                marker(id="Arrow" 
-                        markerWidth="5" markerHeight="5" viewBox="-6 -6 12 12" 
-                        refX="-2" refY="0" 
-                        markerUnits="strokeWidth" 
-                        orient="auto")
-                        polygon(points="-2,0 -5,5 5,0 -5,-5" fill="black" stroke="black" stroke-width="1px")
-        
-        line(id="axis-y" x1="20" y1="500" x2="20" y2="20" stroke="black" stroke-width="2" marker-end="url(#Arrow)")
-        - for (var i = 20; i < 480; i = i + 20)
-            line(x1="15" y1=500-i x2="25" y2=500-i stroke="black" stroke-width="2")
-        
-        line(id="axis-x" x1="20" y1="500" x2=(numbers.length+2)*20 y2="500" stroke="black" stroke-width="2" marker-end="url(#Arrow)")
-        - for (var i = 20; i < (numbers.length+1)*20; i = i + 20)
-            line(x1=20+i y1="495" x2=20+i y2="505" stroke="black" stroke-width="2")
-                    
-        each val, i in numbers
-            - cx_var1 = i*20+40
-            - cy_var1 = 250+val*2.5
-            circle(cx=cx_var1 cy=cy_var1 r="5" fill='black' id="graph-point-"+i)
-            if i != 0
-                line(x1=cx_var1 y1=cy_var1 x2=cx_var2 y2=cy_var2 stroke="black" stroke-width="2" id="graph-line-"+i)
-            - cx_var2 = cx_var1
-            - cy_var2 = cy_var1
+    div(id='graphs')
+    //svg(id="graph-1" class="chart" version="1.1" baseProfile="full" width=numbers.length*20+100 height="550" xmlns="http://www.w3.org/2000/svg")
+    //    defs
+    //            marker(id="Arrow"
+    //                    markerWidth="5" markerHeight="5" viewBox="-6 -6 12 12"
+    //                    refX="-2" refY="0"
+    //                    markerUnits="strokeWidth"
+    //                    orient="auto")
+    //                    polygon(points="-2,0 -5,5 5,0 -5,-5" fill="black" stroke="black" stroke-width="1px")
+    //
+    //    line(id="axis-y" x1="20" y1="500" x2="20" y2="20" stroke="black" stroke-width="2" marker-end="url(#Arrow)")
+    //    - for (var i = 20; i < 480; i = i + 20)
+    //        line(x1="15" y1=500-i x2="25" y2=500-i stroke="black" stroke-width="2")
+    //
+    //    line(id="axis-x" x1="20" y1="500" x2=(numbers.length+2)*20 y2="500" stroke="black" stroke-width="2" marker-end="url(#Arrow)")
+    //    - for (var i = 20; i < (numbers.length+1)*20; i = i + 20)
+    //        line(x1=20+i y1="495" x2=20+i y2="505" stroke="black" stroke-width="2")
+    //
+    //    each val, i in numbers
+    //        - cx_var1 = i*20+40
+    //        - cy_var1 = 250+val*2.5
+    //        circle(cx=cx_var1 cy=cy_var1 r="5" fill='black' id="graph-point-"+i)
+    //        if i != 0
+    //            line(x1=cx_var1 y1=cy_var1 x2=cx_var2 y2=cy_var2 stroke="black" stroke-width="2" id="graph-line-"+i)
+    //        - cx_var2 = cx_var1
+    //        - cy_var2 = cy_var1
 
     #new-graph
 
@@ -35,9 +36,9 @@ block content
             input(type="text", name="color" id="form-color" value="red")
         div.input
             span.label Min value
-            input(type="text", name="min" id="form-min" value="1")
+            input(type="text", name="min" id="form-min" value="0")
         div.input
             span.label Max value
-            input(type="text", name="max" id="form-max" value="40")
+            input(type="text", name="max" id="form-max" value="50")
         div.actions
             input(type="submit", value="Add new graph")
