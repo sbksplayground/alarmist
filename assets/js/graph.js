@@ -39,11 +39,11 @@ var updateGraph = function(data, graphid){
     var cy = 250+data[i]*2.5;
     point = graph.getElementById('graph-point-'+i);
     point.setAttribute("cy", cy);
-    if(data[i]==max || data[i]==min){
-      point.setAttribute("fill", "red");  
-    }else {
-      point.setAttribute("fill", "black")
-    }
+//    if(data[i]==max || data[i]==min){
+//      point.setAttribute("fill", "red");  
+//    }else {
+//      point.setAttribute("fill", "black")
+//    }
     if(i!=0){
       line = graph.getElementById('graph-line-'+i);
       line.setAttribute("y1", cy);
