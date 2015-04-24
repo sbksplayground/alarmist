@@ -9,6 +9,6 @@ gulp.task("js", function(){
         ])
         .bundle()
         .pipe(source("bundle.js"))
-        .pipe(gulp.dest("./assests/js/"));
+        .pipe(gulp.dest("./assets/js/"));
 
 });
