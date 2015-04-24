@@ -6,7 +6,7 @@ var socket = io();
 	updateGraph(points, graphId);
     });
 
-function getNewGraph(){
+window.getNewGraph = function(){
   var color = document.getElementById('form-color').value;
   var min = document.getElementById('form-min').value;
   var max = document.getElementById('form-max').value;
