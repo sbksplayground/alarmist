@@ -1,3 +1,4 @@
 node_modules/*
 uploads/*
 nbproject/*
+assets/js/bundle.js
