@@ -1,15 +1,15 @@
 {
-  "name": "petr-server",
+  "name": "alarmist",
   "version": "1.0.0",
-  "description": "muj prvni server na ukol",
+  "description": "Aplikace na ...",
   "main": "index.js",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "author": "petr.dobricka@seznam.cz",
-  "license": "ISC",
+  "author": "Social Bakers Trainee 3",
+  "license": "BSD",
   "dependencies": {
     "body-parser": "^1.12.3",
     "browserify": "^9.0.8",
