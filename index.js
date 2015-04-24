@@ -4,7 +4,7 @@ var app = express();
 var server= require('http').Server(app);
 var io = require('socket.io')(server);
 var points = require('./modules/graph-data');
-var graphs = require('./modules/graph-new');
+var newGraph = require('./modules/graph-new');
 var bodyParser = require('body-parser');
 
 app.set('view engine', 'jade');
@@ -30,40 +30,50 @@ app.get('/api/getdata', function (req, res, next) {
   });
 });
 
-app.post('/api/add-new-graph', function (req, res, next) {
-  var initdata;  
-  points.getInitData(function(err, data){
-    if(err) return next(err);
-    initdata = data;
-  });
-  graphs.getGraphSvg(parseInt(req.body.lastGraphId)+1, function(err, graph){
-    if(err) return next(err);
-    res.json({numbers: initdata, length: 40, graph: graph, color: req.body.color, min: req.body.min, max: req.body.max});
-  });
-});
+//app.post('/api/add-new-graph', function (req, res, next) {
+//  var initdata;  
+//  points.getInitData(function(err, data){
+//    if(err) return next(err);
+//    initdata = data;
+//  });
+//  graphs.getGraphSvg(parseInt(req.body.lastGraphId)+1, function(err, graph){
+//    if(err) return next(err);
+//    res.json({numbers: initdata, length: 40, graph: graph, color: req.body.color, min: req.body.min, max: req.body.max});
+//  });
+//});
 
-var interval;
-var graphid = 1;
+
 io.on('connection', function(socket, interval){
     console.log('connected');
-    var graphs = ['0','1','2'];
-    socket.emit('graphs' ,graphs)
+    var interval;
+    var graphs = ['1'];
     var interval = setInterval(function(){
         for(var i = 0; i < graphs.length; i++){
-		socket.emit(
-            graphs[i],{points :
-            points.getData(
-                function(err, data){
-                    if(err) return next(err);
-		    return data;
-                }),graph: graphs[i]}
-        );
-	}
-    },500);
+            socket.emit(
+                'data',{points :
+                points.getData(
+                    function(err, data){
+                        if(err) return next(err);
+                        return data;
+                    }),graphId: graphs[i]}
+            );
+        }
+    },5000);
+    
+    socket.on('newGraph', function(data){
+        console.log('newGraph', data.color, data.min, data.max);
+        var newGraphId = graphs.length+1;
+        graphs.push(newGraphId);
+        newGraph.getGraphSvg(newGraphId, data.color, data.min, data.max, function(err, graph){
+            if(err) return next(err);
+            socket.emit('newGraph', {graph: graph, graphId: newGraphId});
+        });
+    })
+    
     socket.on('disconnect', function(){
-	    console.log('disconnected');
-	    clearInterval(interval);
-	    });
+        console.log('disconnected');
+        clearInterval(interval);
+    });
 
 });
 server.listen(8080, function () {

@@ -32,12 +32,12 @@ block content
     form(onsubmit="getNewGraph(); return false;" method="POST", id="add-new-graph-form" enctype="application/x-www-form-urlencoded")
         div.input
             span.label Color
-            input(type="text", name="color" id="form-color" value="")
+            input(type="text", name="color" id="form-color" value="red")
         div.input
             span.label Min value
-            input(type="text", name="min" id="form-min" value="")
+            input(type="text", name="min" id="form-min" value="1")
         div.input
             span.label Max value
-            input(type="text", name="max" id="form-max" value="")
+            input(type="text", name="max" id="form-max" value="40")
         div.actions
             input(type="submit", value="Add new graph")

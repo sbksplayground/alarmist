@@ -1,56 +1,32 @@
-var lastGraphId = 1;
+var socket = io();
+    socket.on('data', function(data){
+	var points = data.points;
+        var graphId = data.graphId;
+	console.log(points, graphId);
+	updateGraph(points, graphId);
+    });
+
 function getNewGraph(){
-  var xhr = new XMLHttpRequest();
-  xhr.onload = reqListener;
-  xhr.onerror = reqError;
   var color = document.getElementById('form-color').value;
   var min = document.getElementById('form-min').value;
   var max = document.getElementById('form-max').value;
-  console.log(color, min, max);
-  xhr.open("POST", "/api/add-new-graph", true);
-  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  var data_to_send = "color="+color+"&min="+min+"&max="+max+"&lastGraphId="+lastGraphId;
-  xhr.send(data_to_send);
+  socket.emit('newGraph', {color: color, min: min, max: max});
 }
 
-var reqListener = function() {
-  var graphsetup = JSON.parse( this.response );
-  var lastGraph = document.getElementById('graph-'+lastGraphId++);
-  var newGraphPlace = document.createElement("div");
-  if (lastGraph.nextSibling) {
-    lastGraph.parentNode.insertBefore(newGraphPlace, lastGraph.nextSibling);
-  }
-  else {
-    lastGraph.parentNode.appendChild(newGraphPlace);
-  }
-  newGraphPlace.innerHTML = graphsetup.graph;
-  setupGraph(lastGraphId, graphsetup.color, graphsetup.min, graphsetup.max);
-}
-var reqError = function(){
-  console.log("Request error ... stoping interval!");
-}
-
-
-var socket = io();
-socket.on('data', function (data, graphid) {
-    updateGraph(data, graphid);
-socket.on('graphs', function(data){
-	var graphs = data;
-	console.log(data);
-	for(var i = 0; i < graphs.length; i++){
-		console.log(graphs[i]);
-		var graph = graphs[i];
-		socket.on(graphs[i], function (data) {
-	        console.log("data for graph "+data.graph+" are"+data.points );
-		document.getElementById('data').innerHTML = data.points;
-		updateGraph(data.points);				       
-});}
+//pošle SVG s grafem
+socket.on('newGraph', function(data){
+    var graphsetup = data.graph;
+    var graphId = data.graphId;
+    var lastGraph = document.getElementById('graph-'+(graphId-1));
+    var newGraphPlace = document.createElement("div");
+    if (lastGraph.nextSibling) {
+      lastGraph.parentNode.insertBefore(newGraphPlace, lastGraph.nextSibling);
+    }
+    else {
+      lastGraph.parentNode.appendChild(newGraphPlace);
+    }
+    newGraphPlace.innerHTML = graphsetup;
 });
-
-var setupGraph = function(graphid, color, min, max){
-    var graph = document.getElementById('graph-'+graphid);
-    console.log("For graph: ",graph,"setup: color: "+color+" min: "+min+" max: "+max);
-}
 
 var updateGraph = function(data, graphid){
   console.log(graphid, data);
@@ -75,4 +51,4 @@ var updateGraph = function(data, graphid){
     }
     before_cy = cy;
   }
-};
+}
