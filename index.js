@@ -64,7 +64,7 @@ io.on('connection', function(socket, interval){
         console.log('newGraph', data.color, data.min, data.max);
         var newGraphId = graphs.length+1;
         graphs.push(newGraphId);
-        newGraph.getGraphSvg(newGraphId, data.color, data.min, data.max, function(err, graph){
+        newGraph.getGraphSvg(newGraphId, data.color, data.min, data.max, 20, function(err, graph){
             if(err) return next(err);
             socket.emit('newGraph', {graph: graph, graphId: newGraphId});
         });
