@@ -42,12 +42,14 @@ var socket = io();
         }
     });
 
-function getNewGraph(){
+function GraphHelper(){}
+GraphHelper.prototype.getNewGraph = function() {
   var color = document.getElementById('form-color').value;
   var min = document.getElementById('form-min').value;
   var max = document.getElementById('form-max').value;
   socket.emit('newGraph', {color: color, min: min, max: max});
-}
+};
+graphHelper = new GraphHelper();
 
 //pošle SVG s grafem
 socket.on('newGraph', function(data){
